@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Folder Include="Features\ProgrammingLanguages\Constants\" />
+    <Folder Include="Features\ProgrammingTechnologies\Constants\" />
+    <Folder Include="Features\ProgrammingTechnologies\Rules\" />
   </ItemGroup>
 
 	<ItemGroup>

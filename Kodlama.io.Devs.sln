@@ -23,15 +23,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Persistence", "src\cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Security", "src\corePackages\Core.Security\Core.Security.csproj", "{F6085858-D2A3-4F8A-BE0B-070F369F5B1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\kodlamaio.Devs\Application\Application.csproj", "{9B3C656D-9B01-4E02-ADE7-4259339E590E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\kodlamaio.Devs\Application\Application.csproj", "{9B3C656D-9B01-4E02-ADE7-4259339E590E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\kodlamaio.Devs\Domain\Domain.csproj", "{C6511BD4-C7DE-4D7D-9882-4127E16DED16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\kodlamaio.Devs\Domain\Domain.csproj", "{C6511BD4-C7DE-4D7D-9882-4127E16DED16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infranstructure", "src\kodlamaio.Devs\Infranstructure\Infranstructure.csproj", "{0A1A49E7-64AF-4F4E-AE66-4C442A13C7E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infranstructure", "src\kodlamaio.Devs\Infranstructure\Infranstructure.csproj", "{0A1A49E7-64AF-4F4E-AE66-4C442A13C7E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistance", "src\kodlamaio.Devs\Persistance\Persistance.csproj", "{F7EE239C-81FA-4423-BC34-AEE60735EDE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\kodlamaio.Devs\Persistance\Persistence.csproj", "{F7EE239C-81FA-4423-BC34-AEE60735EDE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "src\kodlamaio.Devs\WebAPI\WebAPI.csproj", "{F1AC10CE-E34D-4E5A-9DD8-235EA35929E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "src\kodlamaio.Devs\WebAPI\WebAPI.csproj", "{F1AC10CE-E34D-4E5A-9DD8-235EA35929E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
