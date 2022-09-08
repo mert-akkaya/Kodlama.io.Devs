@@ -4,6 +4,7 @@ using Application.Features.ProgrammingTechnologies.Commands.UpdateProgrammingTec
 using Application.Features.ProgrammingTechnologies.Dtos;
 using Application.Features.ProgrammingTechnologies.Models;
 using AutoMapper;
+using Core.Persistence.Paging;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Application.Features.ProgrammingTechnologies.Profiles
             CreateMap<ProgrammingTechnology, DeleteProgrammingTechnologyCommand>().ReverseMap();
 
             CreateMap<ProgrammingTechnology, ProgrammingTechnologyListDto>().ReverseMap();
-            CreateMap<ProgrammingTechnology, ProgrammingTechnologyListModel>().ReverseMap();
+            CreateMap<IPaginate<ProgrammingTechnology>, ProgrammingTechnologyListModel>().ReverseMap();
 
         }
     }

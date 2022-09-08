@@ -6,7 +6,9 @@ using Application.Features.ProgrammingTechnologies.Commands.UpdateProgrammingTec
 using Application.Features.ProgrammingTechnologies.Dtos;
 using Application.Features.ProgrammingTechnologies.Models;
 using Application.Features.ProgrammingTechnologies.Queries.GetListProgrammingTechnology;
+using Application.Features.ProgrammingTechnologies.Queries.GetListProgrammingTechnology.GetListProgrammingTechnologyByDynamic;
 using Core.Application.Requests;
+using Core.Persistence.Dynamic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +23,14 @@ namespace WebAPI.Controllers
         {
             GetListProgrammingTechnologyQuery getListProgrammingTechnologyQuery = new() { PageRequest = pageRequest };
             ProgrammingTechnologyListModel result = await Mediator.Send(getListProgrammingTechnologyQuery);
+            return Ok(result);
+        }
+
+        [HttpPost("GetList/ByDynamic")]
+        public async Task<IActionResult> GetListByDynamic([FromQuery] PageRequest pageRequest, [FromBody] Dynamic dynamic)
+        {
+            GetListProgrammingTechnologyByDynamicQuery getListProgrammingTechnologyByDynamicQuery = new() { PageRequest = pageRequest,Dynamic = dynamic };
+            ProgrammingTechnologyListModel result = await Mediator.Send(getListProgrammingTechnologyByDynamicQuery);
             return Ok(result);
         }
 
