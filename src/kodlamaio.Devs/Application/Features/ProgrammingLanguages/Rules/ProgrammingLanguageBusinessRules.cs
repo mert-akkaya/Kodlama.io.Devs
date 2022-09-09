@@ -23,7 +23,7 @@ namespace Application.Features.ProgrammingLanguages.Rules
         {
             IPaginate<ProgrammingLanguage> result = await _programmingLanguageRepository.GetListAsync(p => p.Name == name);
             if (result.Items.Any()) throw new BusinessException("Programming language name exists.");
-        }
+        }         
 
         
     }
