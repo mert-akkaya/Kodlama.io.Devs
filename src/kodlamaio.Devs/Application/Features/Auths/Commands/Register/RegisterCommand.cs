@@ -1,10 +1,10 @@
-﻿using Application.Features.Auths.Dtos;
+﻿using Application.Features.Auths.Rules;
 using Application.Services.Repositories;
-using AutoMapper;
 using Core.Security.Dtos;
 using Core.Security.Entities;
 using Core.Security.Enums;
 using Core.Security.Hashing;
+using Core.Security.JWT;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -14,24 +14,28 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Auths.Commands.Register
 {
-    public class RegisterCommand : IRequest<RegisteredDto>
+    public class RegisterCommand : IRequest<AccessToken>
     { 
         public UserForRegisterDto UserForRegisterDto { get; set; }
-        public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisteredDto>
+        public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccessToken>
         {
 
             private readonly IUserRepository _userRepository;
-            private readonly IMapper _mapper;
+            private readonly AuthBusinessRules _authBusinessRules;
+            private readonly ITokenHelper _tokenHelper;
 
 
-            public RegisterCommandHandler(IUserRepository userRepository, IMapper mapper)
+            public RegisterCommandHandler(IUserRepository userRepository,AuthBusinessRules authBusinessRules, ITokenHelper tokenHelper)
             {
                 _userRepository = userRepository;
-                _mapper = mapper;
+                _authBusinessRules = authBusinessRules;
+                _tokenHelper = tokenHelper;
             }
 
-            public async Task<RegisteredDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
+            public async Task<AccessToken> Handle(RegisterCommand request, CancellationToken cancellationToken)
             {
+                await _authBusinessRules.UserCanNotBeDuplicatedWhenRegister(request.UserForRegisterDto.Email);
+
                 byte[] passwordHash, passwordSalt;
                 HashingHelper.CreatePasswordHash(request.UserForRegisterDto.Password, out passwordHash, out passwordSalt);
                 User user = new User()
@@ -46,8 +50,8 @@ namespace Application.Features.Auths.Commands.Register
                 };
 
                 User createdUser = await _userRepository.AddAsync(user);
-                RegisteredDto registeredDto = _mapper.Map<RegisteredDto>(createdUser);
-                return registeredDto;
+                AccessToken token = _tokenHelper.CreateToken(createdUser, new List<OperationClaim>());
+                return token;
 
             }
         }

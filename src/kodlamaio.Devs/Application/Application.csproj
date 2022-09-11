@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Features\Auths\Constants\" />
     <Folder Include="Features\Auths\Models\" />
-    <Folder Include="Features\Auths\Rules\" />
     <Folder Include="Features\Auths\Queries\" />
     <Folder Include="Features\OperationClaims\Constants\" />
     <Folder Include="Features\OperationClaims\Rules\" />

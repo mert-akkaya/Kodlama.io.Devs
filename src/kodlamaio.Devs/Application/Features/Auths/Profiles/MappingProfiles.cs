@@ -13,7 +13,6 @@ namespace Application.Features.Auths.Profiles
     {
         public MappingProfiles()
         {
-            CreateMap<User, RegisteredDto>().ReverseMap();
             CreateMap<User, LoginedDto>().ReverseMap();
         }
     }

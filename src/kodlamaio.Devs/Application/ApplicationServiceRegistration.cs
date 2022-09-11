@@ -1,7 +1,10 @@
-﻿using Application.Features.ProgrammingLanguages.Rules;
+﻿using Application.Features.Auths.Rules;
+using Application.Features.ProgrammingLanguages.Rules;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -20,8 +23,14 @@ namespace Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped<ProgrammingLanguageBusinessRules>();
+            services.AddScoped<AuthBusinessRules>();
+            services.AddScoped<AuthBusinessRules>();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
             return services;
         }
     }
