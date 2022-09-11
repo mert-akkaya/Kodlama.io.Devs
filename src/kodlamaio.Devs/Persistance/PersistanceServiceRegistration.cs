@@ -23,6 +23,7 @@ namespace Persistance
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserOperationClaimRepository, UserOperationClaimRepository>();
             services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
+            services.AddScoped<IUserGitHubRepository, UserGithubRepository>();
             return services;
         }
     }

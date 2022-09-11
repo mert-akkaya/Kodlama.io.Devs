@@ -24,7 +24,6 @@ namespace Application
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped<ProgrammingLanguageBusinessRules>();
             services.AddScoped<AuthBusinessRules>();
-            services.AddScoped<AuthBusinessRules>();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

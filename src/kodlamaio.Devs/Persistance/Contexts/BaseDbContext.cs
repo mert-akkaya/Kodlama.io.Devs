@@ -87,6 +87,15 @@ namespace Persistance.Contexts
 
             });
 
+            modelBuilder.Entity<UserGitHub>(a =>
+            {
+                a.ToTable("UserGitHubs").HasKey(k => k.Id);
+                a.Property(p => p.Id).HasColumnName("Id");
+                a.Property(p => p.UserId).HasColumnName("UserId");
+                a.Property(p => p.ProfileUrl).HasColumnName("ProfileUrl");
+                a.HasOne(p => p.User);
+            });
+
 
             ProgrammingLanguage[] programmingLanguageSeeds = { new(1, "C#"), new(2, "Java") , new(3,"Python") };
             modelBuilder.Entity<ProgrammingLanguage>().HasData(programmingLanguageSeeds);
