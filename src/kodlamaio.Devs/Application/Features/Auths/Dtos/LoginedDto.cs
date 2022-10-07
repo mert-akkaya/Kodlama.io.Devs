@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Auths.Dtos
 {
-    public class LoginedDto
+    public class LoginedDto:RefreshedTokenDto
     {
-        public AccessToken AccessToken { get; set; }
+        
     }
 }

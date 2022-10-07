@@ -3,6 +3,7 @@ using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Encryption;
 using Core.Security.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Persistance;
 
@@ -16,6 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddPersistanceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddSecurityServices();
+builder.Services.AddHttpContextAccessor();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -47,7 +49,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsProduction())
     app.ConfigureCustomExceptionMiddleware();
 
 app.UseAuthentication();

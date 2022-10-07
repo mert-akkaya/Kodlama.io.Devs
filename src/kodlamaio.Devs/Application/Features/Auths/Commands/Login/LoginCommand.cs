@@ -1,5 +1,6 @@
 ﻿using Application.Features.Auths.Dtos;
 using Application.Features.Auths.Rules;
+using Application.Services.AuthService;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Persistence.Paging;
@@ -19,6 +20,8 @@ namespace Application.Features.Auths.Commands.Login
     public class LoginCommand : IRequest<LoginedDto>
     {
         public UserForLoginDto UserForLoginDto { get; set; }
+
+        public string IPAddress { get; set; }
         public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginedDto>
         {
 
@@ -28,16 +31,16 @@ namespace Application.Features.Auths.Commands.Login
 
             private readonly IUserOperationClaimRepository _userOperationClaimRepository;
 
-            private readonly ITokenHelper _tokenHelper;
+            private readonly IAuthService _authService;
 
             private readonly IMapper _mapper;
 
-            public LoginCommandHandler(IUserRepository userRepository, AuthBusinessRules authBusinessRules,IUserOperationClaimRepository userOperationClaimRepository,ITokenHelper tokenHelper,IMapper mapper)
+            public LoginCommandHandler(IUserRepository userRepository, AuthBusinessRules authBusinessRules,IUserOperationClaimRepository userOperationClaimRepository, IAuthService authService,IMapper mapper)
             {
                 _userRepository = userRepository;
                 _authBusinessRules = authBusinessRules;
                 _userOperationClaimRepository = userOperationClaimRepository;
-                _tokenHelper = tokenHelper;
+                _authService = authService;
                 _mapper = mapper;
             }
             public async Task<LoginedDto> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -45,11 +48,17 @@ namespace Application.Features.Auths.Commands.Login
                 User user = await _authBusinessRules.UserShouldExistWhenLogin(request.UserForLoginDto.Email);
                 await _authBusinessRules.PasswordCheckWhenLogin(request.UserForLoginDto.Password, user.PasswordHash, user.PasswordSalt);
 
-                IPaginate<UserOperationClaim> userOperationClaims = await _userOperationClaimRepository.GetListAsync(u => u.UserId == user.Id, include: i => i.Include(i => i.OperationClaim));
-                AccessToken accessToken = _tokenHelper.CreateToken(user, userOperationClaims.Items.Select(u => u.OperationClaim).ToList());
+                AccessToken createdAccessToken = await _authService.CreateAccessToken(user);
 
-                LoginedDto loginedDto = _mapper.Map<LoginedDto>(user);
-                loginedDto.AccessToken = accessToken;
+                RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(user, request.IPAddress);
+
+                RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
+
+                LoginedDto loginedDto = new()
+                {
+                    AccessToken = createdAccessToken,
+                    RefreshToken = addedRefreshToken
+                };
 
                 return loginedDto;
 

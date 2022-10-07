@@ -20,13 +20,6 @@ namespace Application.Features.Auths.Rules
             _userRepository = userRepository;
         }
 
-        public async Task UserCanNotBeDuplicatedWhenRegister(string email)
-        {
-            User user = await _userRepository.GetAsync(u => u.Email == email);
-            if (user!=null) throw new BusinessException("User already exists");
-           
-        }
-
         public async Task<User> UserShouldExistWhenLogin(string email)
         {
             IPaginate<User> result = await _userRepository.GetListAsync(b => b.Email == email);
@@ -39,6 +32,14 @@ namespace Application.Features.Auths.Rules
         {
             bool result = HashingHelper.VerifyPasswordHash(password, passwordHash, passwordSalt);
             if (!result) throw new BusinessException("Credentials doesn't match.");
+        }
+
+        public async Task EmailCanNotBeDuplicatedWhenRegistered(string email)
+        {
+            User? user = await _userRepository.GetAsync(u => u.Email == email);
+
+            if (user != null) throw new BusinessException("Mail already exist");
+
         }
     }
 }

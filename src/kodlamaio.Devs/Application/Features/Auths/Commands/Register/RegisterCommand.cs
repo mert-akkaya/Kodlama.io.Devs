@@ -1,4 +1,6 @@
-﻿using Application.Features.Auths.Rules;
+﻿using Application.Features.Auths.Dtos;
+using Application.Features.Auths.Rules;
+using Application.Services.AuthService;
 using Application.Services.Repositories;
 using Core.Security.Dtos;
 using Core.Security.Entities;
@@ -14,27 +16,28 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Auths.Commands.Register
 {
-    public class RegisterCommand : IRequest<AccessToken>
+    public class RegisterCommand : IRequest<RegisteredDto>
     { 
         public UserForRegisterDto UserForRegisterDto { get; set; }
-        public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccessToken>
+        public string IpAddress { get; set; }
+        public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisteredDto>
         {
 
             private readonly IUserRepository _userRepository;
             private readonly AuthBusinessRules _authBusinessRules;
-            private readonly ITokenHelper _tokenHelper;
+            private readonly IAuthService _authService;
 
 
-            public RegisterCommandHandler(IUserRepository userRepository,AuthBusinessRules authBusinessRules, ITokenHelper tokenHelper)
+            public RegisterCommandHandler(IUserRepository userRepository,AuthBusinessRules authBusinessRules, IAuthService authService)
             {
                 _userRepository = userRepository;
-                _authBusinessRules = authBusinessRules;
-                _tokenHelper = tokenHelper;
+                _authBusinessRules = authBusinessRules; 
+                _authService = authService;
             }
 
-            public async Task<AccessToken> Handle(RegisterCommand request, CancellationToken cancellationToken)
+            public async Task<RegisteredDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
             {
-                await _authBusinessRules.UserCanNotBeDuplicatedWhenRegister(request.UserForRegisterDto.Email);
+                await _authBusinessRules.EmailCanNotBeDuplicatedWhenRegistered(request.UserForRegisterDto.Email);
 
                 byte[] passwordHash, passwordSalt;
                 HashingHelper.CreatePasswordHash(request.UserForRegisterDto.Password, out passwordHash, out passwordSalt);
@@ -50,10 +53,25 @@ namespace Application.Features.Auths.Commands.Register
                 };
 
                 User createdUser = await _userRepository.AddAsync(user);
-                AccessToken token = _tokenHelper.CreateToken(createdUser, new List<OperationClaim>());
-                return token;
+
+                AccessToken createdAccessToken = await _authService.CreateAccessToken(createdUser);
+
+                RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(createdUser, request.IpAddress);
+
+                RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
+
+                RegisteredDto registeredDto = new()
+                {
+                    AccessToken = createdAccessToken,
+                    RefreshToken = addedRefreshToken
+                };
+
+
+
+                return registeredDto;
 
             }
+
         }
     }
 }

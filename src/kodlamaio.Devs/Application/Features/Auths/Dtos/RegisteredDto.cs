@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Auths.Dtos
 {
-    public class RegisteredDto
+    public class RegisteredDto:RefreshedTokenDto
     {
-        public int Id { get; set; }
-        public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        
     }
 }

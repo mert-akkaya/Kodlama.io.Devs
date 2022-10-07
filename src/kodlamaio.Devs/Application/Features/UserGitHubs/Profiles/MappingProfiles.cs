@@ -22,9 +22,9 @@ namespace Application.Features.UserGitHubs.Profiles
             CreateMap<UserGitHub, CreateUserGitHubCommand>().ReverseMap();
 
             CreateMap<UserGitHub, UpdatedUserGitHubDto>().ReverseMap();
-            CreateMap<UserGitHub, UpdateUserGitHubCommand>().ReverseMap();
+            CreateMap<UserGitHub, UpdateUserGitHubCommand>().ReverseMap(); 
 
-            CreateMap<UserGitHub, DeletedUserGitHubDto>().ReverseMap();
+            CreateMap<UserGitHub, DeletedUserGitHubDto>().ReverseMap(); 
             CreateMap<UserGitHub, DeleteUserGitHubCommand>().ReverseMap();
 
             CreateMap<UserGitHub, UserGitHubListDto>().ForMember(c => c.UserName, opt => opt.MapFrom(c => c.User.FirstName)).ReverseMap();

@@ -1,5 +1,6 @@
 ﻿using Application.Features.Auths.Rules;
 using Application.Features.ProgrammingLanguages.Rules;
+using Application.Services.AuthService;
 using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
@@ -30,6 +31,9 @@ namespace Application
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+
+            services.AddScoped<IAuthService, AuthManager>();
+
             return services;
         }
     }
