@@ -23,8 +23,10 @@ namespace Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
             services.AddScoped<ProgrammingLanguageBusinessRules>();
             services.AddScoped<AuthBusinessRules>();
+
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

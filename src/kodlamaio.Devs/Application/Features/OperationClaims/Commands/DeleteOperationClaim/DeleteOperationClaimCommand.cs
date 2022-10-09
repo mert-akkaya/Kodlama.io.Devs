@@ -8,7 +8,8 @@ namespace Application.Features.OperationClaims.Commands.DeleteOperationClaim
 {
     public class DeleteOperationClaimCommand : IRequest<DeletedOperationClaimDto>
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
+
 
         public class DeleteOperationClaimCommandHandler : IRequestHandler<DeleteOperationClaimCommand, DeletedOperationClaimDto>
         {

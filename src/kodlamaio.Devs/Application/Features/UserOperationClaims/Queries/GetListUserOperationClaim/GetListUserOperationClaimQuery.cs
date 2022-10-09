@@ -6,6 +6,7 @@ using Core.Application.Requests;
 using Core.Persistence.Paging;
 using Core.Security.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace Application.Features.UserOperationClaims.Queries.GetListUserOperationC
 
             public async Task<UserOperationClaimListModel> Handle(GetListUserOperationClaimQuery request, CancellationToken cancellationToken)
             {
-                IPaginate<UserOperationClaim> userOperationClaims = await _userOperationClaimRepository.GetListAsync(index: request.PageRequest.Page, size: request.PageRequest.PageSize);
+                IPaginate<UserOperationClaim> userOperationClaims = await _userOperationClaimRepository.GetListAsync(include:c=>c.Include(u=>u.User).Include(u=>u.OperationClaim),index: request.PageRequest.Page, size: request.PageRequest.PageSize);
                 UserOperationClaimListModel userOperationClaimListModel = _mapper.Map<UserOperationClaimListModel>(userOperationClaims);
                 return userOperationClaimListModel;
             }

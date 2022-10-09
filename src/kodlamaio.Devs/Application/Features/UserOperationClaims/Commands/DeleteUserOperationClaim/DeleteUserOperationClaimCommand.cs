@@ -14,8 +14,7 @@ namespace Application.Features.UserOperationClaims.Commands.DeleteUserOperationC
 
     public class DeleteUserOperationClaimCommand : IRequest<DeletedUserOperationClaimDto>
     {
-        public int UserId { get; set; }
-        public int OperationClaimId { get; set; }
+        public int Id { get; set; }
 
         public class DeleteUserOperationClaimCommandHandler : IRequestHandler<DeleteUserOperationClaimCommand, DeletedUserOperationClaimDto>
         {

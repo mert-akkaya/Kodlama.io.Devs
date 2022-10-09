@@ -33,10 +33,11 @@ namespace Application.Features.UserOperationClaims.Commands.CreateUserOperationC
 
             public async Task<CreatedUserOperationClaimDto> Handle(CreateUserOperationClaimCommand request, CancellationToken cancellationToken)
             {
-                UserOperationClaim userOperationClaim = _mapper.Map<UserOperationClaim>(request);
-                UserOperationClaim createdUserOperationClaim = await _userOperationClaimRepository.AddAsync(userOperationClaim);
+                UserOperationClaim mappedUserOperationClaim = _mapper.Map<UserOperationClaim>(request);
+                UserOperationClaim createdUserOperationClaim = await _userOperationClaimRepository.AddAsync(mappedUserOperationClaim);
                 CreatedUserOperationClaimDto createdUserOperationClaimDto = _mapper.Map<CreatedUserOperationClaimDto>(createdUserOperationClaim);
                 return createdUserOperationClaimDto;
+
             }
         }
     }
